@@ -21,12 +21,25 @@ describe('Marble testing operators', () => {
 
   describe('MapTo', () => {
     it('should map every value emitted to "surprise!"', () => {
-      const values = { a: 1, b: 2, c: 3, x: 'surprise!' };
-      const source = cold('-a-b-c-|', values);
-      const expected = cold('-x-x-x-|', values);
+      // const values = { a: 1, b: 2, c: 3, x: 'surprise!' };
+      // const source = cold('-a-b-c-|', values);
+      // const expected = cold('-x-x-x-|', values);
 
-      const result = source.pipe(mapTo('surprise!'));
-      expect(result).toBeObservable(expected);
+      // const result = source.pipe(mapTo('surprise!'));
+      // expect(result).toBeObservable(expected);
+
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
+        const values = { a: 1, b: 2, c: 3, x: 'surprise!' };
+        const obs1 = '-a-b-c-|';
+        const expected = '-x-x-x-|';
+
+        const sut = cold(obs1, values).pipe(
+          mapTo('surprise!')
+        );
+
+        expectObservable(sut).toBe(expected, values);
+      });
     });
   });
 
