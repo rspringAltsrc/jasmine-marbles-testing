@@ -21,6 +21,7 @@ describe('Marble testing operators', () => {
         );
 
         expectObservable(sut).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -38,6 +39,7 @@ describe('Marble testing operators', () => {
         );
 
         expectObservable(sut).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -58,6 +60,7 @@ describe('Marble testing operators', () => {
         );
 
         expectObservable(sut).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -78,6 +81,7 @@ describe('Marble testing operators', () => {
         );
 
         expectObservable(sut).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -98,6 +102,7 @@ describe('Marble testing operators', () => {
         );
 
         expectObservable(sut).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -114,7 +119,8 @@ describe('Marble testing operators', () => {
           takeWhile(x => x < 5)
         );
 
-        expectObservable(sut).toBe(expected)
+        expectObservable(sut).toBe(expected);
+        expect().nothing();
       });
     });
   });

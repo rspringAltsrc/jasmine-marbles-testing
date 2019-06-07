@@ -25,6 +25,7 @@ describe('Marbe testing with time', () => {
         );
 
         expectObservable(sut).toBe(expected, expectedValues);
+        expect().nothing();
       });
     });
   });
@@ -41,6 +42,7 @@ describe('Marbe testing with time', () => {
         );
 
         expectObservable(sut).toBe(expected);
+        expect().nothing();
       });
     });
   });
