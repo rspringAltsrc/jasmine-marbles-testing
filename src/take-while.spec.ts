@@ -2,7 +2,7 @@ import { getTestScheduler } from 'jasmine-marbles';
 import { TestScheduler } from 'rxjs/testing';
 import { concatMap, map, mapTo, mergeMap, switchMap, takeWhile } from 'rxjs/operators';
 
-fdescribe('TakeWhile', () => {
+describe('TakeWhile', () => {
   let testScheduler: TestScheduler;
   beforeEach(() => {
     testScheduler = getTestScheduler();
@@ -11,8 +11,8 @@ fdescribe('TakeWhile', () => {
     testScheduler.run(helpers => {
       const { cold, expectObservable } = helpers;
 
-      const source = '  -1--3---6---4---7--2------|';
-      const expected = '-1--3---|';
+      const source = '  -1--3--6---4---7--2------|';
+      const expected = '-1--3--|';
 
       const sut = cold(source).pipe(
         takeWhile(x => +x < 5)
@@ -27,10 +27,10 @@ fdescribe('TakeWhile', () => {
     testScheduler.run(helpers => {
       const { cold, expectObservable } = helpers;
 
-      const source = '  -1--3---6---4---7--2------|';
-      const expected = '-1--3---6|';
+      const source = '  -1--3--6---4---7--2------|';
+      const expected = '-1--3--6|';
 
-      const sut = cold(source).pipe(
+      const sut = cold('  -1--3--6---4---7--2------|').pipe(
         takeWhile(x => +x < 5)
       );
 
