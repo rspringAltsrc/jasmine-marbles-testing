@@ -35,6 +35,7 @@ describe('Marble testing basics', () => {
       const expected = '--';
 
       expectObservable(cold(source)).toBe(expected);
+      expect().nothing();
     });
   });
 
@@ -47,6 +48,7 @@ describe('Marble testing basics', () => {
         const expected = '-a-|';
 
         expectObservable(cold(source)).toBe(expected);
+        expect().nothing();
       });
     });
 
@@ -59,6 +61,7 @@ describe('Marble testing basics', () => {
         const expected = '-a-|';
 
         expectObservable(cold(source, values)).toBe(expected, values);
+        expect().nothing();
       });
     });
 
@@ -71,6 +74,7 @@ describe('Marble testing basics', () => {
         const expected = '-a-|';
 
         expectObservable(cold(source, values)).toBe(expected, values);
+        expect().nothing();
       });
     });
 
@@ -82,6 +86,7 @@ describe('Marble testing basics', () => {
         const expected = '--#';
 
         expectObservable(cold(source)).toBe(expected);
+        expect().nothing();
       });
     });
 
@@ -93,6 +98,7 @@ describe('Marble testing basics', () => {
         const expected = '--#';
 
         expectObservable(cold(source, null, new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+        expect().nothing();
       });
     });
 
@@ -103,6 +109,7 @@ describe('Marble testing basics', () => {
         const expected = '#';
 
         expectObservable(_throw(new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+        expect().nothing();
       });
     });
 
@@ -114,6 +121,7 @@ describe('Marble testing basics', () => {
         const expected = '(abc|)';
 
         expectObservable(of(1, 2, 3)).toBe(expected, values);
+        expect().nothing();
       });
     });
   });
@@ -128,6 +136,7 @@ describe('Marble testing basics', () => {
         const expected = '-a-|';
 
         expectObservable(hot(source, values)).toBe(expected, values);
+        expect().nothing();
       });
     });
 
@@ -143,6 +152,7 @@ describe('Marble testing basics', () => {
         const sut = hot(source, values);
         expectObservable(sut).toBe(expected, values);
         expectSubscriptions(sut.subscriptions).toBe(subscription);
+        expect().nothing();
       });
     });
   });
