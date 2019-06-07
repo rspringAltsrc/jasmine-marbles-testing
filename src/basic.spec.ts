@@ -31,7 +31,7 @@ describe('Marble testing basics', () => {
     testScheduler.run(helpers => {
       const { cold, expectObservable } = helpers;
 
-      const source = '  --';
+      const source = '  --'; //Wait 
       const expected = '--';
 
       const sut = cold(source);
@@ -90,7 +90,7 @@ describe('Marble testing basics', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
 
-        const source = '--#';
+        const source = '  --#';
         const expected = '--#';
 
         const sut = cold(source);

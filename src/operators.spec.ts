@@ -17,7 +17,7 @@ describe('Marble testing operators', () => {
         const expected = '-x-y-z-|';
 
         const sut = cold(obs1, values).pipe(
-          map((x: number) => x + 1)
+          map(x => x + 1)
         );
 
         expectObservable(sut).toBe(expected, values);
@@ -75,8 +75,8 @@ describe('Marble testing operators', () => {
         const expected = '-x-x-x-x-xy-y-y|';
 
         const sut = cold(obs1, values).pipe(
-          switchMap((x: number) => cold(obs2, values).pipe(
-            map((y: number) => x + y)
+          switchMap(x => cold(obs2, values).pipe(
+            map(y => x + y)
           ))
         );
 
@@ -96,8 +96,8 @@ describe('Marble testing operators', () => {
         const expected = '-x-x-x----y-y-y--x-x-xy-y-y|';
 
         const sut = cold(obs1, values).pipe(
-          concatMap((x: number) => cold(obs2, values).pipe(
-            map((y: number) => x + y)
+          concatMap(x => cold(obs2, values).pipe(
+            map(y => x + y)
           ))
         );
 
@@ -116,7 +116,7 @@ describe('Marble testing operators', () => {
         const expected = '-1--3---|';
 
         const sut = cold(source).pipe(
-          takeWhile(x => x < 5)
+          takeWhile(x => +x < 5)
         );
 
         expectObservable(sut).toBe(expected);
@@ -132,7 +132,7 @@ describe('Marble testing operators', () => {
         const expected = '-1--3---6|';
 
         const sut = cold(source).pipe(
-          takeWhile(x => x < 5)
+          takeWhile(x => +x < 5)
         );
 
         expectObservable(sut).toBe(expected);
