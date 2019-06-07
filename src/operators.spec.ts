@@ -13,7 +13,7 @@ describe('Marble testing operators', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
         const values = { a: 1, b: 2, c: 3, x: 2, y: 3, z: 4 };
-        const obs1 = '-a-b-c-|';
+        const obs1 = '    -a-b-c-|';
         const expected = '-x-y-z-|';
 
         const sut = cold(obs1, values).pipe(
@@ -31,7 +31,7 @@ describe('Marble testing operators', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
         const values = { a: 1, b: 2, c: 3, x: 'surprise!' };
-        const obs1 = '-a-b-c-|';
+        const obs1 = '    -a-b-c-|';
         const expected = '-x-x-x-|';
 
         const sut = cold(obs1, values).pipe(
@@ -49,8 +49,8 @@ describe('Marble testing operators', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
         const values = { a: 'hello', b: 'world', x: 'hello world' };
-        const obs1 = '-a-------a--|';
-        const obs2 = '-b-b-b-|';
+        const obs1 = '     -a-------a--|';
+        const obs2 = '     -b-b-b-|';
         const expected = '--x-x-x---x-x-x-|';
 
         const sut = cold(obs1, values).pipe(
@@ -70,8 +70,8 @@ describe('Marble testing operators', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
         const values = { a: 10, b: 30, x: 20, y: 40 };
-        const obs1 = '-a-----a--b-|';
-        const obs2 = 'a-a-a|';
+        const obs1 = '    -a-----a--b-|';
+        const obs2 = '     a-a-a|';
         const expected = '-x-x-x-x-xy-y-y|';
 
         const sut = cold(obs1, values).pipe(
@@ -91,8 +91,8 @@ describe('Marble testing operators', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
         const values = { a: 10, b: 30, x: 20, y: 40 };
-        const obs1 = '-a--------b------ab|';
-        const obs2 = 'a-a-a|';
+        const obs1 = '    -a--------b------ab|';
+        const obs2 = '     a-a-a|';
         const expected = '-x-x-x----y-y-y--x-x-xy-y-y|';
 
         const sut = cold(obs1, values).pipe(

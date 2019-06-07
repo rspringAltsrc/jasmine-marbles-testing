@@ -46,7 +46,7 @@ describe('Marble testing basics', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
 
-        const source = '-a-|';
+        const source = '  -a-|';
         const expected = '-a-|';
 
         const sut = cold(source);
@@ -61,7 +61,7 @@ describe('Marble testing basics', () => {
         const { cold, expectObservable } = helpers;
 
         const values = { a: 1 };
-        const source = '-a-|';
+        const source = '  -a-|';
         const expected = '-a-|';
 
         const sut = cold(source, values);
@@ -76,7 +76,7 @@ describe('Marble testing basics', () => {
         const { cold, expectObservable } = helpers;
 
         const values = { a: { key: 'value' } };
-        const source = '-a-|';
+        const source = '  -a-|';
         const expected = '-a-|';
 
         const sut = cold(source, values);
@@ -104,7 +104,7 @@ describe('Marble testing basics', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
 
-        const source = '--#';
+        const source = '  --#';
         const expected = '--#';
 
         const sut = cold(source, null, new Error('Oops!'));
@@ -163,9 +163,9 @@ describe('Marble testing basics', () => {
         const { hot, expectObservable, expectSubscriptions } = helpers;
 
         const values = { a: 5, b: 8, c: 2 };
-        const source = '-a-^b---c-|';
+        const source = '   -a-^b---c-|';
         const subscription = '^------!';
-        const expected = '-b---c-|';
+        const expected = '    -b---c-|';
 
         const sut = hot(source, values);
         expectObservable(sut).toBe(expected, values);

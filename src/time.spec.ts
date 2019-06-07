@@ -15,7 +15,6 @@ describe('Marbe testing with time', () => {
       testScheduler.run(helpers => {
         const { cold, expectObservable } = helpers;
 
-        const obs1 = '-a-b-c-|';
         const expected = '10ms a 19ms b 19ms c 19ms d 19ms e 9ms |';
         const expectedValues = { a: 0, b: 2, c: 4, d: 6, e: 8 };
 
