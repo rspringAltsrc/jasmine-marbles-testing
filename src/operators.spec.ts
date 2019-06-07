@@ -1,15 +1,20 @@
-import { cold } from 'jasmine-marbles';
-import { concatMap, map, mapTo, mergeMap, switchMap } from 'rxjs/operators';
+import { cold, getTestScheduler } from 'jasmine-marbles';
+import { TestScheduler } from 'rxjs/testing';
+import { concatMap, map, mapTo, mergeMap, switchMap, takeWhile } from 'rxjs/operators';
 
 describe('Marble testing operators', () => {
-
+  let testScheduler: TestScheduler;
+  beforeEach(() => {
+    testScheduler = getTestScheduler();
+  })
+  
   describe('Map', () => {
     it('should add "1" to each value emitted', () => {
       const values = { a: 1, b: 2, c: 3, x: 2, y: 3, z: 4 };
       const source = cold('-a-b-c-|', values);
       const expected = cold('-x-y-z-|', values);
 
-      const result = source.pipe(map(x => x+1));
+      const result = source.pipe(map(x => x + 1));
       expect(result).toBeObservable(expected);
     });
   });
@@ -28,8 +33,8 @@ describe('Marble testing operators', () => {
   describe('MergeMap', () => {
     it('should maps to inner observable and flattens', () => {
       const values = { a: 'hello', b: 'world', x: 'hello world' };
-      const obs1 = cold(    '-a-------a--|', values);
-      const obs2 = cold(    '-b-b-b-|', values);
+      const obs1 = cold('-a-------a--|', values);
+      const obs2 = cold('-b-b-b-|', values);
       const expected = cold('--x-x-x---x-x-x-|', values);
 
       const result = obs1.pipe(mergeMap(x => obs2.pipe(map(y => x + ' ' + y))));
@@ -40,8 +45,8 @@ describe('Marble testing operators', () => {
   describe('SwitchMap', () => {
     it('should maps each value to inner observable and flattens', () => {
       const values = { a: 10, b: 30, x: 20, y: 40 };
-      const obs1 = cold(    '-a-----a--b-|', values);
-      const obs2 = cold(    'a-a-a|', values);
+      const obs1 = cold('-a-----a--b-|', values);
+      const obs2 = cold('a-a-a|', values);
       const expected = cold('-x-x-x-x-xy-y-y|', values);
 
       const result = obs1.pipe(switchMap(x => obs2.pipe(map(y => x + y))));
@@ -52,12 +57,29 @@ describe('Marble testing operators', () => {
   describe('ConcatMap', () => {
     it('should maps values to inner observable and emits in order', () => {
       const values = { a: 10, b: 30, x: 20, y: 40 };
-      const obs1 = cold(    '-a--------b------ab|', values);
-      const obs2 = cold(    'a-a-a|', values);
+      const obs1 = cold('-a--------b------ab|', values);
+      const obs2 = cold('a-a-a|', values);
       const expected = cold('-x-x-x----y-y-y--x-x-xy-y-y|', values);
 
       const result = obs1.pipe(concatMap(x => obs2.pipe(map(y => x + y))));
       expect(result).toBeObservable(expected);
+    });
+  });
+
+  describe('TakeWhile', () => {
+    it('should emit until value is > 5', () => {
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
+
+        const source = '  -1--3---6---4---7--2------|';
+        const expected = '-1--3---|';
+
+        const sut = cold(source).pipe(
+          takeWhile(x => x < 5)
+        );
+
+        expectObservable(sut).toBe(expected)
+      });
     });
   });
 });
