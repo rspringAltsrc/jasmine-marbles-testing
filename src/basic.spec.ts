@@ -1,4 +1,6 @@
-import { cold, hot } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
+import { TestScheduler } from 'rxjs/testing';
+
 import { of } from 'rxjs/observable/of';
 import { _throw } from 'rxjs/observable/throw'
 
@@ -20,86 +22,128 @@ import { _throw } from 'rxjs/observable/throw'
  */
 
 describe('Marble testing basics', () => {
-  it('should understand marble diagram', () => {
-    const source = cold('--');
-    const expected = cold('--');
+  let testScheduler: TestScheduler;
+  beforeEach(() => {
+    testScheduler = getTestScheduler();
+  })
 
-    expect(source).toBeObservable(expected);
+  it('should understand marble diagram', () => {
+    testScheduler.run(helpers => {
+      const { cold, expectObservable } = helpers;
+
+      const source = '  --';
+      const expected = '--';
+
+      expectObservable(cold(source)).toBe(expected);
+    });
   });
 
   describe('cold observable', () => {
     it('should support basic string values', () => {
-      const source = cold('-a-|');
-      const expected = cold('-a-|');
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const source = '-a-|';
+        const expected = '-a-|';
+
+        expectObservable(cold(source)).toBe(expected);
+      });
     });
 
     it('should support basic values provided as params (number)', () => {
-      const source = cold('-a-|', { a: 1 });
-      const expected = cold('-a-|', { a: 1 });
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const values = { a: 1 };
+        const source = '-a-|';
+        const expected = '-a-|';
+
+        expectObservable(cold(source, values)).toBe(expected, values);
+      });
     });
 
     it('should support basic values provided as params (object)', () => {
-      const source = cold('-a-|', { a: { key: 'value' } });
-      const expected = cold('-a-|', { a: { key: 'value' } });
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
-    });
+        const values = { a: { key: 'value' } };
+        const source = '-a-|';
+        const expected = '-a-|';
 
-    it('should support basic values provided as params (object)', () => {
-      const source = cold('-a-|', { a: { key: 'value' } });
-      const expected = cold('-a-|', { a: { key: 'value' } });
-
-      expect(source).toBeObservable(expected);
+        expectObservable(cold(source, values)).toBe(expected, values);
+      });
     });
 
     it("should support basic errors", () => {
-      const source = cold('--#');
-      const expected = cold('--#');
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const source = '--#';
+        const expected = '--#';
+
+        expectObservable(cold(source)).toBe(expected);
+      });
     });
 
     it("should support custom errors", () => {
-      const source = cold('--#', null, new Error('Oops!'));
-      const expected = cold('--#', null, new Error('Oops!'));
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const source = '--#';
+        const expected = '--#';
+
+        expectObservable(cold(source, null, new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+      });
     });
 
     it("should support custom Observable error", () => {
-      const source = _throw(new Error('Oops!'));
-      const expected = cold('#', null, new Error('Oops!'));
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const expected = '#';
+
+        expectObservable(_throw(new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+      });
     });
 
     it("should support multiple emission in the same time frame", () => {
-      const source = of(1, 2, 3);
-      const expected = cold('(abc|)', { a: 1, b: 2, c: 3 });
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const values = { a: 1, b: 2, c: 3 };
+        const expected = '(abc|)';
+
+        expectObservable(of(1, 2, 3)).toBe(expected, values);
+      });
     });
   });
 
   describe('hot observable', () => {
     it('should support basic hot observable', () => {
-      const source = hot('-^a-|', { a: 5 });
-      const expected = cold('-a-|', { a: 5 });
+      testScheduler.run(helpers => {
+        const { hot, expectObservable } = helpers;
 
-      expect(source).toBeObservable(expected);
+        const values = { a: 5 };
+        const source = ' -^a-|';
+        const expected = '-a-|';
+
+        expectObservable(hot(source, values)).toBe(expected, values);
+      });
     });
 
     it('should support testing subscriptions', () => {
-      const source = hot('-a-^b---c-|');
-      const subscription =  '^------!';
-      const expected = cold('-b---c-|');
+      testScheduler.run(helpers => {
+        const { hot, expectObservable, expectSubscriptions } = helpers;
 
-      expect(source).toBeObservable(expected);
-      expect(source).toHaveSubscriptions(subscription);
+        const values = { a: 5 };
+        const source = '-a-^b---c-|';
+        const subscription = '^------!';
+        const expected = '-b---c-|';
+
+        const sut = hot(source, values);
+        expectObservable(sut).toBe(expected, values);
+        expectSubscriptions(sut.subscriptions).toBe(subscription);
+      });
     });
   });
 });

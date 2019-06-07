@@ -1,4 +1,4 @@
-import { cold, getTestScheduler } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
 import { TestScheduler } from 'rxjs/testing';
 import { concatMap, map, mapTo, mergeMap, switchMap, takeWhile } from 'rxjs/operators';
 

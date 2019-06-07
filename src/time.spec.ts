@@ -1,4 +1,4 @@
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { getTestScheduler } from 'jasmine-marbles';
 import { TestScheduler } from 'rxjs/testing';
 import { interval } from 'rxjs/observable/interval';
 import { of } from 'rxjs/observable/of';
