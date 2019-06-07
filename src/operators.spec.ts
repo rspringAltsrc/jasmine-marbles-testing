@@ -56,13 +56,21 @@ describe('Marble testing operators', () => {
 
   describe('ConcatMap', () => {
     it('should maps values to inner observable and emits in order', () => {
+      testScheduler.run(helpers => {
+        const { cold, expectObservable } = helpers;
       const values = { a: 10, b: 30, x: 20, y: 40 };
-      const obs1 = cold('-a--------b------ab|', values);
-      const obs2 = cold('a-a-a|', values);
-      const expected = cold('-x-x-x----y-y-y--x-x-xy-y-y|', values);
+      const obs1 = '-a--------b------ab|';
+      const obs2 = 'a-a-a|'
+      const expected = '-x-x-x----y-y-y--x-x-xy-y-y|';
 
-      const result = obs1.pipe(concatMap(x => obs2.pipe(map(y => x + y))));
-      expect(result).toBeObservable(expected);
+        const sut = cold(obs1, values).pipe(
+          concatMap((x:number) => cold(obs2, values).pipe(
+            map((y:number) => x + y)
+          ))
+        );
+
+        expectObservable(sut).toBe(expected, values);
+      });
     });
   });
 
