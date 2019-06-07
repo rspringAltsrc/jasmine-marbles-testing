@@ -144,7 +144,7 @@ describe('Marble testing basics', () => {
       testScheduler.run(helpers => {
         const { hot, expectObservable, expectSubscriptions } = helpers;
 
-        const values = { a: 5 };
+        const values = { a: 5, b: 8, c: 2 };
         const source = '-a-^b---c-|';
         const subscription = '^------!';
         const expected = '-b---c-|';
