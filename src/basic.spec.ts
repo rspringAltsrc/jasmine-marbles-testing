@@ -34,7 +34,9 @@ describe('Marble testing basics', () => {
       const source = '  --';
       const expected = '--';
 
-      expectObservable(cold(source)).toBe(expected);
+      const sut = cold(source);
+
+      expectObservable(sut).toBe(expected);
       expect().nothing();
     });
   });
@@ -47,7 +49,9 @@ describe('Marble testing basics', () => {
         const source = '-a-|';
         const expected = '-a-|';
 
-        expectObservable(cold(source)).toBe(expected);
+        const sut = cold(source);
+
+        expectObservable(sut).toBe(expected);
         expect().nothing();
       });
     });
@@ -60,7 +64,9 @@ describe('Marble testing basics', () => {
         const source = '-a-|';
         const expected = '-a-|';
 
-        expectObservable(cold(source, values)).toBe(expected, values);
+        const sut = cold(source, values);
+
+        expectObservable(sut).toBe(expected, values);
         expect().nothing();
       });
     });
@@ -73,7 +79,9 @@ describe('Marble testing basics', () => {
         const source = '-a-|';
         const expected = '-a-|';
 
-        expectObservable(cold(source, values)).toBe(expected, values);
+        const sut = cold(source, values);
+
+        expectObservable(sut).toBe(expected, values);
         expect().nothing();
       });
     });
@@ -85,7 +93,9 @@ describe('Marble testing basics', () => {
         const source = '--#';
         const expected = '--#';
 
-        expectObservable(cold(source)).toBe(expected);
+        const sut = cold(source);
+
+        expectObservable(sut).toBe(expected);
         expect().nothing();
       });
     });
@@ -97,7 +107,9 @@ describe('Marble testing basics', () => {
         const source = '--#';
         const expected = '--#';
 
-        expectObservable(cold(source, null, new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+        const sut = cold(source, null, new Error('Oops!'));
+
+        expectObservable(sut).toBe(expected, null, new Error('Oops!'));
         expect().nothing();
       });
     });
@@ -108,7 +120,9 @@ describe('Marble testing basics', () => {
 
         const expected = '#';
 
-        expectObservable(_throw(new Error('Oops!'))).toBe(expected, null, new Error('Oops!'));
+        const sut = _throw(new Error('Oops!'));
+
+        expectObservable(sut).toBe(expected, null, new Error('Oops!'));
         expect().nothing();
       });
     });
@@ -120,7 +134,9 @@ describe('Marble testing basics', () => {
         const values = { a: 1, b: 2, c: 3 };
         const expected = '(abc|)';
 
-        expectObservable(of(1, 2, 3)).toBe(expected, values);
+        const sut = of(1, 2, 3);
+
+        expectObservable(sut).toBe(expected, values);
         expect().nothing();
       });
     });
@@ -134,8 +150,10 @@ describe('Marble testing basics', () => {
         const values = { a: 5 };
         const source = ' -^a-|';
         const expected = '-a-|';
+        
+        const sut = hot(source, values);
 
-        expectObservable(hot(source, values)).toBe(expected, values);
+        expectObservable(sut).toBe(expected, values);
         expect().nothing();
       });
     });
